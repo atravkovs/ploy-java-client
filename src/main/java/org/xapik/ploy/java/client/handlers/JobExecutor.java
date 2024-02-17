@@ -6,6 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface JobHandler {
+@Target(ElementType.METHOD)
+public @interface JobExecutor {
+    public Class<?> inputType();
+
+    public String name();
 }

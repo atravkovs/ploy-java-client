@@ -1,10 +1,14 @@
 plugins {
     id 'java'
     id 'com.google.protobuf' version '0.9.4'
+    id 'org.springframework.boot' version '3.2.2'
 }
+
+apply plugin: 'io.spring.dependency-management'
 
 group = 'org.xapik.ploy.java.client'
 version = '1.0-SNAPSHOT'
+sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
@@ -13,6 +17,8 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
     runtimeOnly 'io.grpc:grpc-netty-shaded:1.61.0'
     implementation 'io.grpc:grpc-protobuf:1.61.1'
@@ -52,7 +58,7 @@ protobuf {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'org.xapik.ploy.java.client.Main'
+                'Main-Class': 'org.xapik.ploy.java.client.PloyJavaClientApplication'
         )
     }
 }
