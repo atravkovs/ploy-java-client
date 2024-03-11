@@ -11,7 +11,10 @@ import org.xapik.ploy.java.client.handlers.JobHandler;
 public class TestExecutor {
 
     @JobExecutor(inputType = TestInputDto.class, name = "testJob")
-    public void testJob(TestInputDto input) {
-        log.info("Hello, {}!", input.getMessage());
+    public TestOutputDto testJob(TestInputDto input) {
+        String newMessage = input.message() + " - testJob";
+
+        log.info("New message {}", newMessage);
+        return new TestOutputDto(newMessage);
     }
 }

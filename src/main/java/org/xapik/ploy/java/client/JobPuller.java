@@ -34,7 +34,7 @@ public class JobPuller {
     private final ApplicationContext applicationContext;
 
     private ManagedChannel channel;
-    private Map<String, JobExecutorEntry> jobExecutors = new HashMap<>();
+    private final Map<String, JobExecutorEntry> jobExecutors = new HashMap<>();
 
     @PostConstruct
     public void postConstruct() {
@@ -69,11 +69,14 @@ public class JobPuller {
                         }
 
                         Object input = objectMapper.readValue(workItem.getInputs(), jobExecutor.getInputClass());
-                        jobExecutor.getMethod().invoke(jobExecutor.getHandler(), input);
+                        Object output = jobExecutor.getMethod().invoke(jobExecutor.getHandler(), input);
+
+                        String outputs = objectMapper.writeValueAsString(output);
 
                         stub.completeWorkItem(
                                 CompleteWorkItemRequest.newBuilder()
                                         .setJobId(workItem.getJobId())
+                                        .setOutputs(outputs)
                                         .build()
                         );
                     } catch (JsonProcessingException | IllegalAccessException | InvocationTargetException e) {
@@ -103,5 +106,4 @@ public class JobPuller {
             }
         });
     }
-
 }
