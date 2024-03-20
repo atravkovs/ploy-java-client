@@ -38,7 +38,7 @@ public class JobPuller {
 
     @PostConstruct
     public void postConstruct() {
-        this.channel = ManagedChannelBuilder.forAddress("localhost", 50051)
+        this.channel = ManagedChannelBuilder.forAddress("127.0.0.1", 50051)
                 .usePlaintext()
                 .build();
         initializeJobExecutor();
